@@ -1,13 +1,16 @@
-/* Project Tags */
+/* 
+    Project Tags
+    Develop By: William MR
+*/
 
 variable "project_owner" {
     description     = "Tag to identify the resource owner name"
-    default         = "William Munoz"
+    default         = "William Munoz Rodas"
 }
 
 variable "project_email" {
     description     = "Tag to identify the resource owner email"
-    default         = "william.munoz@endava.com"
+    default         = "william.munozr@gmail.com"
 } 
 
 variable "project_name" {
@@ -84,10 +87,10 @@ locals {
     ]
 }
 
-/* EKS Wordpress Cluster */
+/* EKS Cluster */
 variable "eks_cluster_name" {
     description     = "EKS Cluster Name"
-    default         = "eks-wordpress"
+    default         = "eks-cluster"
 }
 
 /* EKS Wordpress Worker Nodes */

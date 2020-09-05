@@ -1,4 +1,8 @@
-module "eks-wordpress" {
+/* 
+    EKS Cluster Configuration
+    Develop By: William MR
+*/
+module "eks-cluster" {
     source              = "terraform-aws-modules/eks/aws"
     cluster_name        = var.eks_cluster_name
     cluster_version     = "1.15"
