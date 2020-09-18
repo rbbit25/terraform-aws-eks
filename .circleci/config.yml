@@ -92,6 +92,8 @@ workflows:
             - init
       - slack/approval-notification:
           message: Pending Approval
+          requires: 
+            - plan
       - apply:
           requires:
             - plan
