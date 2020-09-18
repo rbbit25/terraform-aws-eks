@@ -3,7 +3,7 @@ version: 2.1
 terraform: &terraform
   working_directory: ~/repo
   docker:
-    - image: hashicorp/terraform:0.12.24
+    - image: hashicorp/terraform:0.12.29
   environment:
     TF_IN_AUTOMATION: true
     TF_VAR_AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
