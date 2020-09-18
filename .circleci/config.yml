@@ -46,8 +46,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/repo
-      - slack/approval-notification:
-          message: Pending approval
       - run:
           name: apply
           command: terraform apply -auto-approve
@@ -92,6 +90,8 @@ workflows:
       - plan:
           requires:
             - init
+      - slack/approval-notification:
+          message: Pending Approval
       - apply:
           requires:
             - plan
