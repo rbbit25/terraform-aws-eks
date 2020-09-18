@@ -34,6 +34,9 @@ jobs:
       - run:
           name: Terraform Plan
           command: terraform plan
+      - slack/approval:
+          mentions: "William Munoz"
+          url: 'https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}'
       - store_artifacts:
           path: ~/repo/tfplan
           destination: tfplan
