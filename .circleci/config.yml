@@ -56,7 +56,7 @@ jobs:
           color: "#42e2f4"
           mentions: "William Munoz"
           message: Terraform AWS EKS was deployed
-          webhook: webhook
+          webhook: '${SLACK_WEBHOOK}'
       - slack/status:
           fail_only: true
           mentions: "William Munoz"
@@ -76,7 +76,7 @@ jobs:
           channel: builds
           color: "#42e2f4"
           mentions: "William Munoz"
-          webhook: webhook
+          webhook: '${SLACK_WEBHOOK}'
           message: Terraform AWS EKS was destroyed
       - slack/status:
           fail_only: true
