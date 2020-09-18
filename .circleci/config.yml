@@ -34,6 +34,9 @@ jobs:
       - run:
           name: Terraform Plan
           command: terraform plan
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
       - run:
           name: Enabling bash
           command: apk add bash curl
@@ -43,9 +46,6 @@ jobs:
       - store_artifacts:
           path: ~/repo/tfplan
           destination: tfplan
-      - persist_to_workspace:
-          root: ~/repo
-          paths: .
 
   terraform-apply:
     <<: *terraform
