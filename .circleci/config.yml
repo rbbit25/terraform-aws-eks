@@ -52,9 +52,11 @@ jobs:
           name: show
           command: terraform show -no-color > tfresult
       - slack/notify:
+          channel: builds
           color: "#42e2f4"
           mentions: "William Munoz"
           message: Terraform AWS EKS was deployed
+          webhook: webhook
       - slack/status:
           fail_only: true
           mentions: "William Munoz"
@@ -71,8 +73,10 @@ jobs:
           name: destroy app
           command: terraform destroy -auto-approve
       - slack/notify:
+          channel: builds
           color: "#42e2f4"
           mentions: "William Munoz"
+          webhook: webhook
           message: Terraform AWS EKS was destroyed
       - slack/status:
           fail_only: true
