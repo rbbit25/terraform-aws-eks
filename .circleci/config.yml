@@ -54,7 +54,7 @@ jobs:
           command: terraform show -no-color > tfresult
       - run:
           name: Enabling bash
-          command: apk add bash
+          command: apk add bash curl
       - slack/notify:
           color: "#42e2f4"
           mentions: "William Munoz"
