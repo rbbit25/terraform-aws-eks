@@ -34,6 +34,9 @@ jobs:
       - run:
           name: Terraform Plan
           command: terraform plan
+      - run:
+          name: Enabling bash
+          command: apk add bash curl
       - slack/approval:
           mentions: "William Munoz"
           url: 'https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}'
