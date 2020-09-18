@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  slack: circleci/slack@3.4.2
+
 terraform: &terraform
   working_directory: ~/repo
   docker:
@@ -48,6 +51,13 @@ jobs:
       - run:
           name: show
           command: terraform show -no-color > tfresult
+      - slack/notify:
+          color: "#42e2f4"
+          mentions: "William Munoz"
+          message: Terraform AWS EKS was deployed
+      - slack/status:
+          fail_only: true
+          mentions: "William Munoz"
       - store_artifacts:
           path: ~/repo/tfresult
           destination: tfresult            
@@ -60,6 +70,13 @@ jobs:
       - run:
           name: destroy app
           command: terraform destroy -auto-approve
+      - slack/notify:
+          color: "#42e2f4"
+          mentions: "William Munoz"
+          message: Terraform AWS EKS was destroyed
+      - slack/status:
+          fail_only: true
+          mentions: "William Munoz"
 
 workflows:
   version: 2
