@@ -15,24 +15,24 @@ terraform: &terraform
     BASH: true
 
 jobs:
-  init:
+  terraform-init:
     <<: *terraform
     steps:
       - checkout
       - run:
-          name: init
+          name: Terraform Init
           command: terraform init
       - persist_to_workspace:
           root: ~/repo
           paths: .
 
-  plan:
+  terraform-plan:
     <<: *terraform
     steps:
       - attach_workspace:
           at: ~/repo
       - run:
-          name: plan
+          name: Terraform Plan
           command: terraform plan
       - store_artifacts:
           path: ~/repo/tfplan
@@ -41,16 +41,16 @@ jobs:
           root: ~/repo
           paths: .
 
-  apply:
+  terraform-apply:
     <<: *terraform
     steps:
       - attach_workspace:
           at: ~/repo
       - run:
-          name: apply
+          name: Terraform Apply
           command: terraform apply -auto-approve
       - run:
-          name: show
+          name: Terraform Show
           command: terraform show -no-color > tfresult
       - run:
           name: Enabling bash
@@ -66,13 +66,13 @@ jobs:
           path: ~/repo/tfresult
           destination: tfresult            
 
-  destroy:
+  terraform-destroy:
     <<: *terraform
     steps:
       - attach_workspace:
           at: ~/repo
       - run:
-          name: destroy app
+          name: Terraform Destroy
           command: terraform destroy -auto-approve
       - slack/notify:
           color: "#42e2f4"
@@ -86,24 +86,24 @@ workflows:
   version: 2
   build_deploy:
     jobs:
-      - init
-      - plan:
+      - terraform-init
+      - terraform-plan:
           requires:
-            - init
-      - slack/approval-notification:
-          message: Pending Approval
-          requires: 
-            - plan
-      - apply:
+            - terraform-init
+      - hold-for-approval:
+          type: approval
           requires:
-            - plan
+            - terraform-plan
+      - terraform-apply:
+          requires:
+            - hold-for-approval
           filters:
             branches:
               only:
                 - master
-      - destroy:
+      - terraform-destroy:
           requires:
-            - plan
+            - hold-for-approval
           filters:
             branches:
               only:
