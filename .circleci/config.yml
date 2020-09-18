@@ -80,6 +80,9 @@ jobs:
       - run:
           name: Terraform Destroy
           command: terraform destroy -auto-approve
+      - run:
+          name: Enabling bash
+          command: apk add bash curl
       - slack/notify:
           color: "#42e2f4"
           mentions: "William Munoz"
