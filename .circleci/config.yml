@@ -3,7 +3,7 @@ version: 2.1
 orbs:
   slack: circleci/slack@3.4.2
   aws-eks: circleci/aws-eks@0.2
-  helm: circleci/helm@1.0.0
+  helm: circleci/helm@1.0
 
 terraform: &terraform
   working_directory: ~/repo
@@ -133,6 +133,7 @@ workflows:
             branches:
               only:
                 - destroy
+
       - install-grafana-chart:
           cluster-name: eks-cluster
           requires:
