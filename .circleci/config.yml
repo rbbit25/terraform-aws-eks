@@ -101,7 +101,7 @@ jobs:
         type: string
       steps:
         - aws-eks/update-kubeconfig-with-authenticator:
-            cluster-name: eks-cluster
+            cluster-name: << parameters.cluster-name >>
         - helm/install-helm-chart:
             chart: stable/grafana
             helm-version: v3.2.4
