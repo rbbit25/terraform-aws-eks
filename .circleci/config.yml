@@ -75,6 +75,7 @@ jobs:
           destination: tfresult   
           
   external-dns:
+    <<: *terraform
     executor: aws-cli/default
     steps:
       - attach_workspace:
@@ -84,6 +85,9 @@ jobs:
       - run: 
           name: Create Hosted Zone on AWS Route53
           command: aws route53 create-hosted-zone --name "eks.kubernetesops.com." --caller-reference "eks-$(date +%s)"
+      - run:
+          name: Get External DNS Policy ARN
+          command: terraform output external-dns-policy-arn
 
   terraform-destroy:
     <<: *terraform
