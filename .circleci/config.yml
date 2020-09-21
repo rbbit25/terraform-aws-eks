@@ -130,3 +130,10 @@ workflows:
             branches:
               only:
                 - destroy
+      - external-dns:
+          requires:
+            - terraform-apply
+          filters:
+            branches:
+              only:
+                - master
