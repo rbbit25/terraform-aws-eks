@@ -22,8 +22,3 @@ provider "kubernetes" {
   load_config_file       = false
   version                = "~> 1.9"
 }
-
-data "helm_repository" "bitnami" {
-  name = "bitnami"
-  url  = "https://charts.bitnami.com"
-}
