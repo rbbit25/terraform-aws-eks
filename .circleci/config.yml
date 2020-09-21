@@ -35,7 +35,7 @@ jobs:
           at: ~/repo
       - run:
           name: Terraform Plan
-          command: terraform plan -lock-timeout=300
+          command: terraform plan -lock-timeout=300s
       - persist_to_workspace:
           root: ~/repo
           paths: .
