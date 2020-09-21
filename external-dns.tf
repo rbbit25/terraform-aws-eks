@@ -120,7 +120,7 @@ resource "helm_release" "external_dns" {
 
   set {
     name  = "name"
-    value = "${var.cluster_name}-external-dns"
+    value = "${var.eks_cluster_name}-external-dns"
   }
 
   set {
