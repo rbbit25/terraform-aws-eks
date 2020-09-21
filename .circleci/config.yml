@@ -73,35 +73,6 @@ jobs:
       - store_artifacts:
           path: ~/repo/tfresult
           destination: tfresult   
-          
-  # external-dns:
-  #   executor: aws-cli/default
-  #   steps:
-  #     - attach_workspace:
-  #         at: ~/repo
-  #     - aws-cli/setup:
-  #         profile-name: default
-  #     - run: 
-  #         name: Create Hosted Zone on AWS Route53
-  #         command: aws route53 create-hosted-zone --name "eks.kubernetesops.com." --caller-reference "eks-$(date +%s)"
-
-  # iam-role-for-serviceaccount:
-  #   executor: aws-eks/python3
-  #   steps:
-  #     - attach_workspace:
-  #         at: ~/repo
-  #     - aws-eks/install-eksctl
-  #     - run:
-  #         name: Create IAM Role for ServiceAccount
-  #         command: |
-  #           eksctl utils associate-iam-oidc-provider --region=us-east-2 --cluster=eks-cluster --approve
-  #           eksctl create iamserviceaccount \
-  #           --name external-dns \
-  #           --namespace kube-system \
-  #           --cluster eks-cluster \
-  #           --attach-policy-arn arn:aws:iam::$AWS_ACCOUNT_ID:policy/eks-external-dns-policy \
-  #           --override-existing-serviceaccounts \
-  #           --approve
 
   terraform-destroy:
     <<: *terraform
@@ -148,13 +119,3 @@ workflows:
             branches:
               only:
                 - destroy
-      # - external-dns:
-      #     requires:
-      #       - terraform-apply
-      #     filters:
-      #       branches:
-      #         only:
-      #           - master
-      # - iam-role-for-serviceaccount:
-      #     requires:
-      #       - external-dns
