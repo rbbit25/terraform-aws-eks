@@ -10,5 +10,5 @@ output "kubectl_config" {
 
 output "external-dns-policy-arn" {
   description = "EKS External DNS Policy ARN"
-  value       = aws_iam_policy.poliy.arn
+  value       = aws_iam_policy.policy.arn
 }
