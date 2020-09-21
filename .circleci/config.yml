@@ -90,8 +90,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/repo
-      - aws-eks/install-eksctl:
-          cluster-name: << parameters.cluster-name >>
+      - aws-eks/install-eksctl
       - run:
           name: Create IAM Role for ServiceAccount
           command: |
