@@ -35,7 +35,7 @@ jobs:
           at: ~/repo
       - run:
           name: Terraform Plan
-          command: terraform plan -lock-timeout=300s
+          command: terraform plan -lock-timeout=300s -var="aws_account_id=$AWS_ACCOUNT_ID"
       - persist_to_workspace:
           root: ~/repo
           paths: .
@@ -56,7 +56,7 @@ jobs:
           at: ~/repo
       - run:
           name: Terraform Apply
-          command: terraform apply -auto-approve
+          command: terraform apply -auto-approve -var="aws_account_id=$AWS_ACCOUNT_ID"
       - run:
           name: Terraform Show
           command: terraform show -no-color > tfresult
