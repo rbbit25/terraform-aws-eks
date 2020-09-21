@@ -93,6 +93,11 @@ variable "eks_cluster_name" {
     default         = "eks-cluster"
 }
 
+variable "eks_cluster_version" {
+    description     = "EKS Cluster Version"
+    default         = "1.17"
+}
+
 /* EKS Wordpress Worker Nodes */
 variable "eks_instance_type" {
     description     = "EKS Instance Type"
