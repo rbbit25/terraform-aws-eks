@@ -84,9 +84,28 @@ jobs:
       - run: 
           name: Create Hosted Zone on AWS Route53
           command: aws route53 create-hosted-zone --name "eks.kubernetesops.com." --caller-reference "eks-$(date +%s)"
+
+  iam-role-for-serviceaccount:
+    executor: aws-eks/python3
+    parameters:
+      cluster-name: 
+        description: |
+          EKS Cluster Name
+        type: string
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - aws-eks/install-eksctl:
+          cluster-name: << parameters.cluster-name >>
       - run:
-          name: External DNS Policy ARN
-          command: echo $AWS_ACCOUNT_ID
+          name: Create IAM Role for ServiceAccount
+          command: |
+            eksctl create iamserviceaccount \
+            --name external-dns \
+            --namespace kube-system \
+            --cluster $cluster-name
+            --attach-policy-arn arn:aws:iam::$AWS_ACCOUNT_ID:policy/eks-external-dns-policy \
+            --approve
 
   terraform-destroy:
     <<: *terraform
@@ -140,3 +159,7 @@ workflows:
             branches:
               only:
                 - master
+      - iam-role-for-serviceaccount:
+          cluster-name: eks-cluster
+          requires:
+            - external-dns
