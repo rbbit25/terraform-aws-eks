@@ -3,6 +3,10 @@
     Develop By: William MR
 */
 
+variable "aws_account_id" {
+    description = "AWS Account Id Number"
+}
+
 variable "project_owner" {
     description     = "Tag to identify the resource owner name"
     default         = "William Munoz Rodas"
@@ -96,6 +100,29 @@ variable "eks_cluster_name" {
 variable "eks_cluster_version" {
     description     = "EKS Cluster Version"
     default         = "1.17"
+}
+
+variable "external_dns_chart_version" {
+  description = "External-dns Helm chart version to deploy. 3.0.0 is the minimum version for this function"
+  type        = string
+  default     = "3.0.0"
+}
+
+variable "external_dns_chart_log_level" {
+  description = "External-dns Helm chart log level. Possible values are: panic, debug, info, warn, error, fatal"
+  type        = string
+  default     = "warn"
+}
+
+variable "external_dns_zoneType" {
+  description = "External-dns Helm chart AWS DNS zone type (public, private or empty for both)"
+  type        = string
+  default     = ""
+}
+
+variable "external_dns_domain_filters" {
+  description = "External-dns Domain filters."
+  type        = list(string)
 }
 
 /* EKS Wordpress Worker Nodes */
