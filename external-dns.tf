@@ -3,6 +3,7 @@
     Develop By: William MR
 */
 
+/*
 locals {
   oidc_url = replace(module.eks-cluster.cluster_oidc_issuer_url, "https://", "")
 }
@@ -47,6 +48,7 @@ resource "kubernetes_service_account" "external_dns" {
   }
   automount_service_account_token = true
 }
+*/
 
 # resource "kubernetes_cluster_role" "external_dns" {
 #   metadata {
