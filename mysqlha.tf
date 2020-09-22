@@ -7,6 +7,7 @@ resource "helm_release" "timedb" {
   name       = "timedb"
   repository = "https://kubernetes-charts-incubator.storage.googleapis.com"
   chart      = "mysqlha"
+  reuse_values = true
 
   set {
       name = "mysqlDatabase"
