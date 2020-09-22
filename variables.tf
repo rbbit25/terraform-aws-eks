@@ -140,5 +140,5 @@ variable "eks_asg_max_size" {
 
 variable "asg_desired_capacity" {
     description     = "Desired Capacity"
-    default         = 2
+    default         = 3
 }
