@@ -15,7 +15,7 @@ data "aws_eks_cluster_auth" "cluster" {
   name = module.eks-cluster.cluster_id
 }
 
-data "helm_repository" "incubator" {
-  name = "incubator"
-  url  = "https://kubernetes-charts-incubator.storage.googleapis.com"
-}
+# data "helm_repository" "incubator" {
+#   name = "incubator"
+#   url  = "https://kubernetes-charts-incubator.storage.googleapis.com"
+# }

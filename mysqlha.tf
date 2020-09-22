@@ -5,6 +5,6 @@
 
 resource "helm_release" "timedb" {
   name       = "timedb"
-  repository = data.helm_repository.incubator.metadata[0].name
+  repository = "https://kubernetes-charts-incubator.storage.googleapis.com"
   chart      = "mysqlha"
 }
