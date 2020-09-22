@@ -31,3 +31,8 @@ provider "helm" {
     load_config_file        = false
   }
 }
+
+data "helm_repository" "incubator" {
+  name = "incubator"
+  url  = "https://kubernetes-charts-incubator.storage.googleapis.com"
+}
