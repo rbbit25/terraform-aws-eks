@@ -17,11 +17,11 @@ resource "helm_release" "timedb" {
 
   set {
       name = "mysqlUser"
-      value = data.aws_secretsmanager_secret.by-name.db_username
+      value = jsondecode(data.aws_secretsmanager_secret_version.current.secret_string)["db_username"]
   }
 
   set {
       name = "mysqlPassword"
-      value = data.aws_secretsmanager_secret.by-name.db_password
+      value = jsondecode(data.aws_secretsmanager_secret_version.current.secret_string)["db_password"]
   }
 }

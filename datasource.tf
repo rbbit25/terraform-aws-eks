@@ -15,6 +15,10 @@ data "aws_eks_cluster_auth" "cluster" {
   name = module.eks-cluster.cluster_id
 }
 
-data "aws_secretsmanager_secret" "by-name" {
+data "aws_secretsmanager_secret" "secrets" {
   name = "mysql_secrets"
+}
+
+data "aws_secretsmanager_secret_version" "current" {
+  secret_id = data.aws_secretsmanager_secret.secrets.id
 }
