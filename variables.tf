@@ -142,3 +142,56 @@ variable "asg_desired_capacity" {
     description     = "Desired Capacity"
     default         = 3
 }
+
+###
+# RDS Configuration
+###
+variable "rds_database_identifier" {
+  description = "RDS Database Identifier"
+  default     = "terraform-eks-01"
+}
+
+variable "rds_name" {
+  default = "timeoffdb"
+}
+
+variable "rds_port" {
+  default = "3306"
+}
+
+variable "rds_storage_type" {
+  default = "gp2"
+}
+
+variable "rds_allocated_storage" {
+  default = "10"
+}
+
+variable "rds_engine" {
+  default = "mysql"
+}
+
+variable "rds_engine_version" {
+  default = "5.7"
+}
+
+variable "rds_instance_class" {
+  default = "db.t2.medium"
+}
+
+variable "rds_username" {
+  default = "timeoffuser"
+}
+
+variable "rds_password" {
+  default = "A1s2d3f4g5h6"
+}
+
+variable "rds_parameter_group_name" {
+  description     = "RDS Parameter Group Name"
+  default         = "default.mysql5.7"
+}
+
+variable "enable_dashboard" {
+  default = true
+}
