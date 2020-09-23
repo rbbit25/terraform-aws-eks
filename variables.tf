@@ -172,7 +172,7 @@ variable "rds_engine" {
 }
 
 variable "rds_engine_version" {
-  default = "5.7"
+  default = "5.7.19"
 }
 
 variable "rds_instance_class" {
@@ -187,11 +187,14 @@ variable "rds_password" {
   default = "A1s2d3f4g5h6"
 }
 
-variable "rds_parameter_group_name" {
-  description     = "RDS Parameter Group Name"
-  default         = "default.mysql5.7"
+variable "rds_parameter_family" {
+  default = "mysql5.7"
 }
 
 variable "enable_dashboard" {
   default = true
+}
+
+variable "rds_major_engine_version" {
+  default = "5.7"
 }
