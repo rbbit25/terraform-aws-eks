@@ -48,6 +48,9 @@ module "db" {
 
   vpc_security_group_ids = [aws_security_group.sec_grp_rds.id]
 
+  maintenance_window = "Mon:00:00-Mon:03:00"
+  backup_window      = "03:00-06:00"
+  
   # disable backups to create DB faster
   backup_retention_period = 0
 
