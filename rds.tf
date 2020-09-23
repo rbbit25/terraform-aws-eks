@@ -57,6 +57,9 @@ module "db" {
   # DB subnet group
   subnet_ids = module.vpc.public_subnets
 
-  # DB parameter group
-  family = var.rds_parameter_group_name
+  family = var.rds_parameter_family
+
+  deletion_protection = false
+
+  major_engine_version = var.rds_major_engine_version
 }
