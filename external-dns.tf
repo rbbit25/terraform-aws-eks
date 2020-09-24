@@ -40,6 +40,7 @@ resource "kubernetes_service_account" "external_dns" {
   automount_service_account_token = true
 }
 
+/*
 resource "kubernetes_cluster_role" "external_dns" {
   metadata {
     name = "external-dns"
@@ -81,3 +82,4 @@ resource "kubernetes_cluster_role_binding" "external_dns" {
     namespace = kubernetes_service_account.external_dns.metadata.0.namespace
   }
 }
+*/
