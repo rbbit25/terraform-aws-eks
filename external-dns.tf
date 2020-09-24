@@ -11,7 +11,7 @@ locals {
 
 resource "aws_iam_role" "external_dns" {
   name                = "${module.eks-cluster.cluster_id}-external-dns"
-  assume_role_policy  = file("aws-policy/external-dns-iam-policy.json")
+  assume_role_policy  = data.aws_iam_policy_document.external_dns.json
 }
 
 /*
