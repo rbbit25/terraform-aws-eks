@@ -4,7 +4,7 @@
 */
 
 locals {
-  oidc_url = replace(module.eks.cluster_oidc_issuer_url, "https://", "")
+  oidc_url = replace(module.eks-cluster.cluster_oidc_issuer_url, "https://", "")
 }
 
 /*
