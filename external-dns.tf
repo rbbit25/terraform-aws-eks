@@ -3,6 +3,11 @@
     Develop By: William MR
 */
 
+locals {
+  oidc_url = replace(module.eks.cluster_oidc_issuer_url, "https://", "")
+}
+
+/*
 resource "aws_iam_role" "external_dns" {
   name = "${module.eks-cluster.cluster_id}-external-dns"
 
@@ -17,6 +22,31 @@ resource "aws_iam_role" "external_dns" {
       },
       "Effect": "Allow",
       "Sid": ""
+    }
+  ]
+}
+EOF
+}
+*/
+
+resource "aws_iam_role" "external_dns" {
+  name  = "${module.eks-cluster.cluster_id}-external-dns"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::${var.aws_account_id}:oidc-provider/${local.oidc_url}"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "${local.oidc_url}:sub": "system:serviceaccount:kube-system:external-dns"
+        }
+      }
     }
   ]
 }
