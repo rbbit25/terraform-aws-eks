@@ -40,7 +40,7 @@ resource "kubernetes_service_account" "external_dns" {
   automount_service_account_token = true
 }
 
-/*
+
 resource "kubernetes_cluster_role" "external_dns" {
   metadata {
     name = "external-dns"
@@ -82,4 +82,72 @@ resource "kubernetes_cluster_role_binding" "external_dns" {
     namespace = kubernetes_service_account.external_dns.metadata.0.namespace
   }
 }
-*/
+
+resource "helm_release" "external_dns" {
+  name       = "external-dns"
+  namespace  = kubernetes_service_account.external_dns.metadata.0.namespace
+  wait       = true
+  repository = "https://charts.bitnami.com/bitnami"
+  chart      = "external-dns"
+  version    = var.external_dns_chart_version
+
+  set {
+    name  = "rbac.create"
+    value = false
+  }
+
+  set {
+    name  = "serviceAccount.create"
+    value = false
+  }
+
+  set {
+    name  = "serviceAccount.name"
+    value = kubernetes_service_account.external_dns.metadata.0.name
+  }
+
+  set {
+    name  = "rbac.pspEnabled"
+    value = false
+  }
+
+  set {
+    name  = "name"
+    value = "${var.eks_cluster_name}-external-dns"
+  }
+
+  set {
+    name  = "provider"
+    value = "aws"
+  }
+
+  set_string {
+    name  = "policy"
+    value = "sync"
+  }
+
+  set_string {
+    name  = "logLevel"
+    value = var.external_dns_chart_log_level
+  }
+
+  set {
+    name  = "sources"
+    value = "{ingress,service}"
+  }
+
+  set {
+    name  = "domainFilters"
+    value = "{${join(",", var.external_dns_domain_filters)}}"
+  }
+
+  set_string {
+    name  = "aws.zoneType"
+    value = var.external_dns_zoneType
+  }
+
+  set_string {
+    name  = "aws.region"
+    value = lookup(var.region, var.environment)
+  }
+}
