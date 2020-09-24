@@ -8,6 +8,7 @@ locals {
 }
 
 /*
+
 resource "aws_iam_role" "external_dns" {
   name = "${module.eks-cluster.cluster_id}-external-dns"
 
