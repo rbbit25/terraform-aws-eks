@@ -9,35 +9,43 @@ locals {
 }
 */
 
+resource "aws_iam_policy" "policy" {
+  name        = "AllowExternalDNSUpdates"
+  path        = "/"
+  description = "Allows ExternalDNS to update Route53 Resource Record Sets and Hosted Zones"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "route53:ChangeResourceRecordSets"
+      ],
+      "Resource": [
+        "arn:aws:route53:::hostedzone/*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "route53:ListHostedZones",
+        "route53:ListResourceRecordSets"
+      ],
+      "Resource": [
+        "*"
+      ]
+    }
+  ]
+}
+EOF
+}
+
 resource "aws_iam_role" "external_dns" {
   name  = "${module.eks-cluster.cluster_id}-external-dns"
 
-  assume_role_policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "route53:ChangeResourceRecordSets"
-            ],
-            "Resource": [
-                "arn:aws:route53:::hostedzone/*"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "route53:ListHostedZones",
-                "route53:ListResourceRecordSets"
-            ],
-            "Resource": [
-                "*"
-            ]
-        }
-    ]
-}
-EOF
+  assume_role_policy = aws_iam_policy.policy.arn
 }
 
 /*
