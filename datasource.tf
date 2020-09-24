@@ -28,6 +28,7 @@ data "aws_iam_policy_document" "external_dns" {
     effect = "Allow"
 
     actions = [
+      "sts:AssumeRole",
       "route53:ChangeResourceRecordSets",
     ]
 
@@ -40,6 +41,7 @@ data "aws_iam_policy_document" "external_dns" {
     effect = "Allow"
 
     actions = [
+      "sts:AssumeRole",
       "route53:ListHostedZones",
       "route53:ListResourceRecordSets",
     ]
