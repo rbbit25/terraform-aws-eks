@@ -22,32 +22,3 @@ data "aws_secretsmanager_secret" "secrets" {
 data "aws_secretsmanager_secret_version" "current" {
   secret_id = data.aws_secretsmanager_secret.secrets.id
 }
-
-data "aws_iam_policy_document" "external_dns" {
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "sts:AssumeRole",
-      "route53:ChangeResourceRecordSets",
-    ]
-
-    resources = [
-      "arn:aws:route53:::hostedzone/*"
-    ]
-  }
-
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "sts:AssumeRole",
-      "route53:ListHostedZones",
-      "route53:ListResourceRecordSets",
-    ]
-
-    resources = [
-      "*",
-    ]
-  }
-}
