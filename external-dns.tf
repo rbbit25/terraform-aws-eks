@@ -3,24 +3,31 @@
     Develop By: William MR
 */
 
-/*
-locals {
-  oidc_url = replace(module.eks-cluster.cluster_oidc_issuer_url, "https://", "")
-}
-*/
-
 resource "aws_iam_role" "external_dns" {
-  name                = "${module.eks-cluster.cluster_id}-external-dns"
-  assume_role_policy  = data.aws_iam_policy_document.external_dns.json
+  name = "${module.eks-cluster.cluster_id}-external-dns"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "route53.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
 }
 
-/*
 resource "aws_iam_role_policy" "external_dns" {
   name_prefix = "${module.eks-cluster.cluster_id}-external-dns"
   role = aws_iam_role.external_dns.name
   policy = file("aws-policy/external-dns-iam-policy.json")
 }
-*/
 
 resource "kubernetes_service_account" "external_dns" {
   metadata {
