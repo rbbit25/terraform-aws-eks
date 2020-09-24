@@ -121,12 +121,12 @@ resource "helm_release" "external_dns" {
     value = "aws"
   }
 
-  set_string {
+  set {
     name  = "policy"
     value = "sync"
   }
 
-  set_string {
+  set {
     name  = "logLevel"
     value = var.external_dns_chart_log_level
   }
@@ -141,12 +141,12 @@ resource "helm_release" "external_dns" {
     value = "{${join(",", var.external_dns_domain_filters)}}"
   }
 
-  set_string {
+  set {
     name  = "aws.zoneType"
     value = var.external_dns_zoneType
   }
 
-  set_string {
+  set {
     name  = "aws.region"
     value = lookup(var.region, var.environment)
   }

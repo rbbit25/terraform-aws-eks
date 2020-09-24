@@ -109,9 +109,9 @@ variable "external_dns_chart_version" {
 }
 
 variable "external_dns_chart_log_level" {
-  description = "External-dns Helm chart log level. Possible values are: panic, debug, info, warn, error, fatal"
+  description = "External-dns Helm chart log level. Possible values are: panic,fatal,error,warning,info,debug,trace"
   type        = string
-  default     = "warn"
+  default     = "warning"
 }
 
 variable "external_dns_zoneType" {
