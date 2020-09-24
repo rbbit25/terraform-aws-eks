@@ -34,6 +34,7 @@ data "aws_iam_policy_document" "external_dns" {
     resources = [
       "arn:aws:route53:::hostedzone/*"
     ]
+  }
 
   statement {
     effect = "Allow"
