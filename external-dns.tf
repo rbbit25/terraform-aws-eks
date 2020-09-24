@@ -7,6 +7,7 @@
 locals {
   oidc_url = replace(module.eks-cluster.cluster_oidc_issuer_url, "https://", "")
 }
+*/
 
 resource "aws_iam_role" "external_dns" {
   name  = "${module.eks-cluster.cluster_id}-external-dns"
@@ -17,26 +18,35 @@ resource "aws_iam_role" "external_dns" {
   "Statement": [
     {
       "Effect": "Allow",
-      "Principal": {
-        "Federated": "arn:aws:iam::${var.aws_account_id}:oidc-provider/${local.oidc_url}"
-      },
-      "Action": "sts:AssumeRoleWithWebIdentity",
-      "Condition": {
-        "StringEquals": {
-          "${local.oidc_url}:sub": "system:serviceaccount:kube-system:external-dns"
-        }
-      }
+      "Action": [
+        "route53:ChangeResourceRecordSets"
+      ],
+      "Resource": [
+        "arn:aws:route53:::hostedzone/*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "route53:ListHostedZones",
+        "route53:ListResourceRecordSets"
+      ],
+      "Resource": [
+        "*"
+      ]
     }
   ]
 }
 EOF
 }
 
+/*
 resource "aws_iam_role_policy" "external_dns" {
   name_prefix = "${module.eks-cluster.cluster_id}-external-dns"
   role = aws_iam_role.external_dns.name
   policy = file("aws-policy/external-dns-iam-policy.json")
 }
+*/
 
 resource "kubernetes_service_account" "external_dns" {
   metadata {
@@ -48,46 +58,45 @@ resource "kubernetes_service_account" "external_dns" {
   }
   automount_service_account_token = true
 }
-*/
 
-# resource "kubernetes_cluster_role" "external_dns" {
-#   metadata {
-#     name = "external-dns"
-#   }
+resource "kubernetes_cluster_role" "external_dns" {
+  metadata {
+    name = "external-dns"
+  }
 
-#   rule {
-#     api_groups  = [""]
-#     resources   = ["services", "pods", "nodes"]
-#     verbs       = ["get", "list", "watch"]
-#   }
+  rule {
+    api_groups  = [""]
+    resources   = ["services", "pods", "nodes"]
+    verbs       = ["get", "list", "watch"]
+  }
 
-#   rule {
-#     api_groups  = ["extensions", "networking.k8s.io"]
-#     resources   = ["ingresses"]
-#     verbs       = ["get", "list", "watch"]
-#   }
+  rule {
+    api_groups  = ["extensions", "networking.k8s.io"]
+    resources   = ["ingresses"]
+    verbs       = ["get", "list", "watch"]
+  }
 
-#   rule {
-#     api_groups  = ["networking.istio.io"]
-#     resources   = ["gateways"]
-#     verbs       = ["get", "list", "watch"]
-#   }
-# }
+  rule {
+    api_groups  = ["networking.istio.io"]
+    resources   = ["gateways"]
+    verbs       = ["get", "list", "watch"]
+  }
+}
 
-# resource "kubernetes_cluster_role_binding" "external_dns" {
-#   metadata {
-#     name = "external-dns"
-#   }
+resource "kubernetes_cluster_role_binding" "external_dns" {
+  metadata {
+    name = "external-dns"
+  }
 
-#   role_ref {
-#     api_group = "rbac.authorization.k8s.io"
-#     kind = "ClusterRole"
-#     name = kubernetes_cluster_role.external_dns.metadata.0.name
-#   }
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind = "ClusterRole"
+    name = kubernetes_cluster_role.external_dns.metadata.0.name
+  }
 
-#   subject {
-#     kind = "ServiceAccount"
-#     name = kubernetes_service_account.external_dns.metadata.0.name
-#     namespace = kubernetes_service_account.external_dns.metadata.0.namespace
-#   }
-# }
+  subject {
+    kind = "ServiceAccount"
+    name = kubernetes_service_account.external_dns.metadata.0.name
+    namespace = kubernetes_service_account.external_dns.metadata.0.namespace
+  }
+}
