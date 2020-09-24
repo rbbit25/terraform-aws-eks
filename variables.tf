@@ -151,10 +151,6 @@ variable "rds_database_identifier" {
   default     = "terraform-eks-01"
 }
 
-variable "rds_name" {
-  default = "timeoffdb"
-}
-
 variable "rds_port" {
   default = "3306"
 }
@@ -177,14 +173,6 @@ variable "rds_engine_version" {
 
 variable "rds_instance_class" {
   default = "db.t2.medium"
-}
-
-variable "rds_username" {
-  default = "timeoffuser"
-}
-
-variable "rds_password" {
-  default = "A1s2d3f4g5h6"
 }
 
 variable "rds_parameter_family" {

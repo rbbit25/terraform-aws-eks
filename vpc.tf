@@ -31,5 +31,7 @@ module "vpc" {
     Owner                   = var.project_owner
     Email                   = var.project_email
     Project_Name            = var.project_name
+    "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared"
+    "kubernetes.io/role/elb" = "1"
   }
 }
