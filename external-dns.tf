@@ -10,7 +10,7 @@ locals {
 resource "aws_iam_openid_connect_provider" "cluster" {
   client_id_list  = ["sts.amazonaws.com"]
   thumbprint_list = []
-  url             = module.eks-cluster.cluster_oidc_issuer_url
+  url             = local.oidc_url
 }
 
 resource "aws_iam_role" "external_dns" {
