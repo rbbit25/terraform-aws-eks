@@ -7,28 +7,11 @@ locals {
   oidc_url = replace(module.eks-cluster.cluster_oidc_issuer_url, "https://", "")
 }
 
-/*
-
-resource "aws_iam_role" "external_dns" {
-  name = "${module.eks-cluster.cluster_id}-external-dns"
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "route53.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
+resource "aws_iam_openid_connect_provider" "cluster" {
+  client_id_list  = ["sts.amazonaws.com"]
+  thumbprint_list = []
+  url             = module.eks-cluster.cluster_oidc_issuer_url
 }
-EOF
-}
-*/
 
 resource "aws_iam_role" "external_dns" {
   name  = "${module.eks-cluster.cluster_id}-external-dns"
