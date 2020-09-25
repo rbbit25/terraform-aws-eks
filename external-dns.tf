@@ -7,10 +7,18 @@ locals {
   oidc_url = replace(module.eks-cluster.cluster_oidc_issuer_url, "https://", "")
 }
 
+data "tls_certificate" "cluster" {
+  url = module.eks-cluster.identity.0.oidc.0.issuer
+}
+
+/* 
+  Solution:
+  https://medium.com/@marcincuber/amazon-eks-with-oidc-provider-iam-roles-for-kubernetes-services-accounts-59015d15cb0c
+*/
 resource "aws_iam_openid_connect_provider" "cluster" {
   client_id_list  = ["sts.amazonaws.com"]
-  thumbprint_list = []
-  url             = local.oidc_url
+  thumbprint_list = concat([data.tls_certificate.cluster.certificates.0.sha1_fingerprint], var.oidc_thumbprint_list)
+  url             = module.eks-cluster.cluster_oidc_issuer_url
 }
 
 resource "aws_iam_role" "external_dns" {
