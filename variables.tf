@@ -126,7 +126,12 @@ variable "external_dns_domain_filters" {
   default       = ["cloud-station.io"]
 }
 
-/* EKS Wordpress Worker Nodes */
+variable "oidc_thumbprint_list" {
+  type    = list
+  default = []
+}
+
+/* EKS Worker Nodes */
 variable "eks_instance_type" {
     description     = "EKS Instance Type"
     default         = "t2.medium"

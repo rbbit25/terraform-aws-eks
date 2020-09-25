@@ -8,7 +8,7 @@ locals {
 }
 
 data "tls_certificate" "cluster" {
-  url = module.eks-cluster.identity.0.oidc.0.issuer
+  url = module.eks-cluster.cluster_oidc_issuer_url
 }
 
 /* 
