@@ -41,9 +41,9 @@ module "db" {
   storage_encrypted     = false
   publicly_accessible   = true
 
-  name                  = jsondecode(data.aws_secretsmanager_secret_version.current.secret_string)["db_name"]
-  username              = jsondecode(data.aws_secretsmanager_secret_version.current.secret_string)["db_username"]
-  password              = jsondecode(data.aws_secretsmanager_secret_version.current.secret_string)["db_password"]
+  name                  = local.db_creds.db_name
+  username              = local.db_creds.db_username
+  password              = local.db_creds.db_password
   port                  = var.rds_port
 
   vpc_security_group_ids = [aws_security_group.sec_grp_rds.id]

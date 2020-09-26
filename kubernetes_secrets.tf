@@ -9,8 +9,7 @@ resource "kubernetes_secret" "rds-db-credentials" {
     }
 
     data = {
-        db_host     = module.db.this_db_instance_endpoint
-        db_dialect  = "mysql"
+        db_host = module.db.this_db_instance_endpoint
     }
 
     type = "kubernetes.io/basic-auth"

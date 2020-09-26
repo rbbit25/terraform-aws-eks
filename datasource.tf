@@ -22,3 +22,9 @@ data "aws_secretsmanager_secret" "secrets" {
 data "aws_secretsmanager_secret_version" "current" {
   secret_id = data.aws_secretsmanager_secret.secrets.id
 }
+
+locals {
+  db_creds = jsondecode(
+    data.aws_secretsmanager_secret_version.current.secret_string
+  )
+}
