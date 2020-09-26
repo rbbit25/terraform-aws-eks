@@ -4,7 +4,7 @@
 */
 resource "kubernetes_secret" "rds-db-credentials" {
     "metadata" {
-        name = "rds-db-credentials"
+        name = rds-db-credentials
     }
 
     data {
