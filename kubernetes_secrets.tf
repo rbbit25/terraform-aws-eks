@@ -3,7 +3,7 @@
     Develop By: William MR
 */
 resource "kubernetes_secret" "rds-db-credentials" {
-    "metadata" {
+    metadata {
         name = "rds-db-credentials"
     }
 
@@ -14,4 +14,6 @@ resource "kubernetes_secret" "rds-db-credentials" {
         db_host     = module.db.this_db_instance_endpoint
         db_dialect  = "mysql"
     }
+
+    type = "kubernetes.io/basic-auth"
 }
