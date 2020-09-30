@@ -15,20 +15,6 @@ data "aws_eks_cluster_auth" "cluster" {
   name = module.eks-cluster.cluster_id
 }
 
-data "aws_secretsmanager_secret" "secrets" {
-  name = "mysql_secrets"
-}
-
-data "aws_secretsmanager_secret_version" "current" {
-  secret_id = data.aws_secretsmanager_secret.secrets.id
-}
-
-locals {
-  db_creds = jsondecode(
-    data.aws_secretsmanager_secret_version.current.secret_string
-  )
-}
-
 /*
   Database Secret Data
 */
@@ -45,3 +31,18 @@ data "aws_secretsmanager_secret_version" "db_name" {
   secret_id = data.aws_secretsmanager_secret.db_name.id
 }
 
+data "aws_secretsmanager_secret" "db_username" {
+  name = "DB_USERNAME"
+}
+
+data "aws_secretsmanager_secret_version" "db_username" {
+  secret_id = data.aws_secretsmanager_secret.db_username.id
+}
+
+data "aws_secretsmanager_secret" "db_password" {
+  name = "DB_PASSWD"
+}
+
+data "aws_secretsmanager_secret_version" "db_password" {
+  secret_id = data.aws_secretsmanager_secret.db_password.id
+}

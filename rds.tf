@@ -42,8 +42,8 @@ module "db" {
   publicly_accessible   = true
 
   name                  = data.aws_secretsmanager_secret_version.db_name.secret_string
-  username              = local.db_creds.db_username
-  password              = local.db_creds.db_password
+  username              = data.aws_secretsmanager_secret_version.db_username.secret_string
+  password              = data.aws_secretsmanager_secret_version.db_password.secret_string
   port                  = var.rds_port
 
   vpc_security_group_ids = [aws_security_group.sec_grp_rds.id]
