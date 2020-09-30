@@ -68,6 +68,6 @@ module "db" {
 # Update the RDS Endpoint
 ####
 resource "aws_secretsmanager_secret_version" "db_endpoint" {
-  secret_id     = aws_secretsmanager_secret.db_endpoint.id
+  secret_id     = data.aws_secretsmanager_secret.db_endpoint.id
   secret_string = module.db.this_db_instance_endpoint
 }
