@@ -41,7 +41,7 @@ module "db" {
   storage_encrypted     = false
   publicly_accessible   = true
 
-  name                  = local.db_creds.db_name
+  name                  = data.aws_secretsmanager_secret_version.db_name.secret_string
   username              = local.db_creds.db_username
   password              = local.db_creds.db_password
   port                  = var.rds_port

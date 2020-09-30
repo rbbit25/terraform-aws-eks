@@ -29,6 +29,19 @@ locals {
   )
 }
 
+/*
+  Database Secret Data
+*/
+
 data "aws_secretsmanager_secret" "db_endpoint" {
   name = "DB_ENDPOINT"
 }
+
+data "aws_secretsmanager_secret" "db_name" {
+  name = "DB_NAME"
+}
+
+data "aws_secretsmanager_secret_version" "db_name" {
+  secret_id = data.aws_secretsmanager_secret.db_name.id
+}
+
