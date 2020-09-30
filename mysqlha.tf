@@ -17,11 +17,11 @@
 
 #   set {
 #       name = "mysqlUser"
-#       value = jsondecode(data.aws_secretsmanager_secret_version.current.secret_string)["db_username"]
+#       value = data.aws_secretsmanager_secret_version.db_name.secret_string
 #   }
 
 #   set {
 #       name = "mysqlPassword"
-#       value = jsondecode(data.aws_secretsmanager_secret_version.current.secret_string)["db_password"]
+#       value = data.aws_secretsmanager_secret_version.db_password.secret_string
 #   }
 # }
