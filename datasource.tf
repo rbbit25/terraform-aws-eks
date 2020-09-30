@@ -28,3 +28,7 @@ locals {
     data.aws_secretsmanager_secret_version.current.secret_string
   )
 }
+
+data "aws_secretsmanager_secret" "db_endpoint" {
+  name = "DB_ENDPOINT"
+}
