@@ -5,7 +5,7 @@ Following the instructions described in this project you will be able to deploy 
 
 # Architecture
 
-- ToDo
+![alt text](images/Architecture.png "Architecture Proposal")
 
 ## Products Required
 
