@@ -10,6 +10,6 @@ resource "kubernetes_service" "rds" {
 
   spec {
     type = "ExternalName"
-    externalName = element(split(":", module.db.this_db_instance_endpoint), 0)
+    external_name = element(split(":", module.db.this_db_instance_endpoint), 0)
   }
 }
